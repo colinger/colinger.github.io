@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="Flutter是什么可能有半年到一年之间，一次听朋友问我知道Flutter吗？因为之前瞥过一眼，好像是google公众号推送的flutter文章，那时没有细看以为是一个UI的框架。觉得反正是UI库，需要的时候可以去了解一下，下载个Demo看看。当时也没有去看，就不了了知了。 最近周末在家又看到Flutter的文章，就找了相关的资源看了一下，原来并不是我理解的UI库的框架，而是一种类似Reactiv">
-<meta name="keywords" content="android, ios">
+  <meta name="description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
+<meta name="keywords" content="android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="初识flutter">
-<meta property="og:url" content="http://colinger.github.io/2019/06/15/flutter-start/index.html">
+<meta property="og:title" content="在Android9以后遇到的一些问题整理">
+<meta property="og:url" content="http://colinger.github.io/2019/06/19/android-new-version/index.html">
 <meta property="og:site_name" content="Colingo&#39;s Home">
-<meta property="og:description" content="Flutter是什么可能有半年到一年之间，一次听朋友问我知道Flutter吗？因为之前瞥过一眼，好像是google公众号推送的flutter文章，那时没有细看以为是一个UI的框架。觉得反正是UI库，需要的时候可以去了解一下，下载个Demo看看。当时也没有去看，就不了了知了。 最近周末在家又看到Flutter的文章，就找了相关的资源看了一下，原来并不是我理解的UI库的框架，而是一种类似Reactiv">
+<meta property="og:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-14T16:21:24.836Z">
+<meta property="og:updated_time" content="2019-06-19T03:38:14.722Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="初识flutter">
-<meta name="twitter:description" content="Flutter是什么可能有半年到一年之间，一次听朋友问我知道Flutter吗？因为之前瞥过一眼，好像是google公众号推送的flutter文章，那时没有细看以为是一个UI的框架。觉得反正是UI库，需要的时候可以去了解一下，下载个Demo看看。当时也没有去看，就不了了知了。 最近周末在家又看到Flutter的文章，就找了相关的资源看了一下，原来并不是我理解的UI库的框架，而是一种类似Reactiv">
+<meta name="twitter:title" content="在Android9以后遇到的一些问题整理">
+<meta name="twitter:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://colinger.github.io/2019/06/15/flutter-start/">
+  <link rel="canonical" href="http://colinger.github.io/2019/06/19/android-new-version/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>初识flutter | Colingo's Home</title>
+  <title>在Android9以后遇到的一些问题整理 | Colingo's Home</title>
   
 
 
@@ -345,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/06/15/flutter-start/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/06/19/android-new-version/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Colingo">
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">初识flutter
+          <h1 class="post-title" itemprop="name headline">在Android9以后遇到的一些问题整理
 
               
             
@@ -388,7 +388,7 @@
                 
               
 
-              <time title="创建时间：2019-06-15 00:07:34 / 修改时间：00:21:24" itemprop="dateCreated datePublished" datetime="2019-06-15T00:07:34+08:00">2019-06-15</time>
+              <time title="创建时间：2019-06-19 11:25:53 / 修改时间：11:38:14" itemprop="dateCreated datePublished" datetime="2019-06-19T11:25:53+08:00">2019-06-19</time>
             
 
             
@@ -410,7 +410,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/app-ios-android/" itemprop="url" rel="index"><span itemprop="name">app, ios, android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/app-android/" itemprop="url" rel="index"><span itemprop="name">app, android</span></a></span>
 
                 
                 
@@ -445,13 +445,21 @@
       
 
       
-        <h3 id="Flutter是什么"><a href="#Flutter是什么" class="headerlink" title="Flutter是什么"></a>Flutter是什么</h3><p>可能有半年到一年之间，一次听朋友问我知道Flutter吗？因为之前瞥过一眼，好像是google公众号推送的flutter文章，那时没有细看以为是一个UI的框架。觉得反正是UI库，需要的时候可以去了解一下，下载个Demo看看。当时也没有去看，就不了了知了。</p>
-<p>最近周末在家又看到Flutter的文章，就找了相关的资源看了一下，原来并不是我理解的UI库的框架，而是一种类似Reactive app，phonegap这种跨平台app解决方案。写一次app代码，可以在两个平台上运行：iOS，android。</p>
+        <p>Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。</p>
+<p>今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。</p>
 <a id="more"></a>
 
-<h3 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h3><p>我跟着官方的示例，做一个简单的页面，感触颇深。一个稍微复杂一点的页面，使用Row，Column，Expanded等几个Widget就能很快的将一页面开发出来。给我感觉很惊艳，虽然所有布局都是在代码中写的，但比XML，我感觉更能表达UI上的元素。而且在启动之后，修改页面元素，有一个”热部署”的功能，可以瞬间将你的改变展示在你面前。</p>
-<p>对Widget有个大致了解之后，你需要做的就是将一个页面拆分开来。</p>
+<h3 id="Crash-1-ClassNotFoundException"><a href="#Crash-1-ClassNotFoundException" class="headerlink" title="Crash 1 ClassNotFoundException"></a>Crash 1 ClassNotFoundException</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>在8上，7上都正常运行的app，在9上就崩溃了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">E/AndroidRuntime: FATAL EXCEPTION: Thread-<span class="number">7</span></span><br><span class="line">    Process: com.xxx.xxx, PID: <span class="number">27859</span></span><br><span class="line">    java.lang.NoClassDefFoundError: Failed resolution of: Lorg/apache/http/impl/client/DefaultHttpClient;</span><br><span class="line">        at com.xx.utils.HttpClientUtils.getResponse(HttpClientUtils.java:<span class="number">77</span>)</span><br><span class="line">        at com.xx.xx.client.xxx.toQueryVioltionByCarAction(WeizhangApiClient.java:<span class="number">133</span>)</span><br><span class="line">        at com.xx.xx.activity.XXX$<span class="number">4</span>.run(WeizhangResult.java:<span class="number">175</span>)</span><br><span class="line">     Caused by: java.lang.ClassNotFoundException: Didn<span class="string">'t find class "org.apache.http.impl.client.DefaultHttpClient" on path: DexPathList[[zip file "/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk"],nativeLibraryDirectories=[/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/lib/arm64, /data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/product/lib64]]</span></span><br><span class="line"><span class="string">        at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:195)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span></span><br></pre></td></tr></table></figure>
 
+<p>看看项目，这个类是存在的，但有一个细节：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultHttpClient</span> <span class="keyword">extends</span> <span class="title">AbstractHttpClient</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>已经不建议用了。</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>很简单见<a href="https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library" target="_blank" rel="noopener">链接</a></p>
+<p>Specify requirement for Apache HTTP Legacy library</p>
+<p>If you are using <code>com.google.android.gms:play-services-maps:16.0.0</code> or below and your app is targeting API level 28 (Android 9.0) or above, you must include the following declaration within the <code>&lt;application&gt;</code> element of<code>AndroidManifest.xml</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-library</span><br><span class="line">     android:name=<span class="string">"org.apache.http.legacy"</span></span><br><span class="line">     android:required=<span class="string">"false"</span> /&gt;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -477,7 +485,7 @@
         
         <div class="post-tags">
           
-            <a href="/tags/android-ios/" rel="tag"># android, ios</a>
+            <a href="/tags/android/" rel="tag"># android</a>
           
         </div>
       
@@ -490,8 +498,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/13/how-tomcat-works/" rel="next" title="Tomcat8日记">
-                <i class="fa fa-chevron-left"></i> Tomcat8日记
+              <a href="/2019/06/15/flutter-start/" rel="next" title="初识flutter">
+                <i class="fa fa-chevron-left"></i> 初识flutter
               </a>
             
           </div>
@@ -499,10 +507,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/19/android-new-version/" rel="prev" title="在Android9以后遇到的一些问题整理">
-                在Android9以后遇到的一些问题整理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -659,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flutter是什么"><span class="nav-number">1.</span> <span class="nav-text">Flutter是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么做"><span class="nav-number">2.</span> <span class="nav-text">怎么做</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-1-ClassNotFoundException"><span class="nav-number">1.</span> <span class="nav-text">Crash 1 ClassNotFoundException</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></div>
             
 
           </div>
