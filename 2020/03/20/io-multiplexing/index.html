@@ -96,18 +96,20 @@
 
 
 
-  <meta name="description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
-<meta name="keywords" content="android">
+  <meta name="description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在Android9以后遇到的一些问题整理">
-<meta property="og:url" content="http://colinger.github.io/2019/06/19/android-new-version/index.html">
+<meta property="og:title" content="io-multiplexing(多路复用)">
+<meta property="og:url" content="http://colinger.github.io/2020/03/20/io-multiplexing/index.html">
 <meta property="og:site_name" content="Colingo&#39;s Home">
-<meta property="og:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
+<meta property="og:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-19T03:38:14.722Z">
+<meta property="og:image" content="http://colinger.github.io/.io//20180423164809333.png">
+<meta property="og:image" content="http://colinger.github.io/.io//2018042316482657.png">
+<meta property="og:updated_time" content="2020-03-20T14:51:05.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Android9以后遇到的一些问题整理">
-<meta name="twitter:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
+<meta name="twitter:title" content="io-multiplexing(多路复用)">
+<meta name="twitter:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
+<meta name="twitter:image" content="http://colinger.github.io/.io//20180423164809333.png">
 
 
 
@@ -115,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://colinger.github.io/2019/06/19/android-new-version/">
+  <link rel="canonical" href="http://colinger.github.io/2020/03/20/io-multiplexing/">
 
 
 
@@ -125,7 +127,7 @@
   };
 </script>
 
-  <title>在Android9以后遇到的一些问题整理 | Colingo's Home</title>
+  <title>io-multiplexing(多路复用) | Colingo's Home</title>
   
 
 
@@ -345,7 +347,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/06/19/android-new-version/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2020/03/20/io-multiplexing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Colingo">
@@ -362,7 +364,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在Android9以后遇到的一些问题整理
+          <h1 class="post-title" itemprop="name headline">io-multiplexing(多路复用)
 
               
             
@@ -388,7 +390,7 @@
                 
               
 
-              <time title="创建时间：2019-06-19 11:25:53 / 修改时间：11:38:14" itemprop="dateCreated datePublished" datetime="2019-06-19T11:25:53+08:00">2019-06-19</time>
+              <time title="创建时间：2020-03-20 22:11:39 / 修改时间：22:51:05" itemprop="dateCreated datePublished" datetime="2020-03-20T22:11:39+08:00">2020-03-20</time>
             
 
             
@@ -410,7 +412,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/app-android/" itemprop="url" rel="index"><span itemprop="name">app, android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/io/" itemprop="url" rel="index"><span itemprop="name">io</span></a></span>
 
                 
                 
@@ -445,21 +447,42 @@
       
 
       
-        <p>Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。</p>
-<p>今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。</p>
+        <p>nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。</p>
+<h3 id="什么是多路复用"><a href="#什么是多路复用" class="headerlink" title="什么是多路复用"></a>什么是多路复用</h3><p><em>“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing. 如果你搜索multiplexing啥意思，基本上都会出这个图：</em></p>
 <a id="more"></a>
 
-<h3 id="Crash-1-ClassNotFoundException"><a href="#Crash-1-ClassNotFoundException" class="headerlink" title="Crash 1 ClassNotFoundException"></a>Crash 1 ClassNotFoundException</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>在8上，7上都正常运行的app，在9上就崩溃了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">E/AndroidRuntime: FATAL EXCEPTION: Thread-<span class="number">7</span></span><br><span class="line">    Process: com.xxx.xxx, PID: <span class="number">27859</span></span><br><span class="line">    java.lang.NoClassDefFoundError: Failed resolution of: Lorg/apache/http/impl/client/DefaultHttpClient;</span><br><span class="line">        at com.xx.utils.HttpClientUtils.getResponse(HttpClientUtils.java:<span class="number">77</span>)</span><br><span class="line">        at com.xx.xx.client.xxx.toQueryVioltionByCarAction(WeizhangApiClient.java:<span class="number">133</span>)</span><br><span class="line">        at com.xx.xx.activity.XXX$<span class="number">4</span>.run(WeizhangResult.java:<span class="number">175</span>)</span><br><span class="line">     Caused by: java.lang.ClassNotFoundException: Didn<span class="string">'t find class "org.apache.http.impl.client.DefaultHttpClient" on path: DexPathList[[zip file "/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk"],nativeLibraryDirectories=[/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/lib/arm64, /data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/product/lib64]]</span></span><br><span class="line"><span class="string">        at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:195)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span></span><br></pre></td></tr></table></figure>
+<p><img src="/.io//20180423164809333.png" alt="I/O multiplexing"></p>
+<blockquote>
+<p>多路复用通常表示在<strong>一个信道</strong>上<strong>传输</strong>多路<strong>信号</strong>。</p>
+</blockquote>
+<p><strong>I/O multiplexing中的multiplexing是指在单个线程通过记录跟踪一个I/O流的状态来同时管理多个I/O流。</strong>发名它的的原因，是尽量多的提高服务器的吞吐能力。看一下图能直观了解究竟是怎么回事：</p>
+<p><img src="/.io//2018042316482657.png" alt></p>
+<blockquote>
+<p>在同一个线程里面， 通过拨开关的方式，来同时传输多个I/O流。<br><em>nginx使用epoll接收请求的过程是怎样的”， 多看看这个图就了解了。ngnix会有很多链接进来， epoll会把他们都监视起来，然后像拨开关一样，谁有数据就拨向谁，然后调用相应的代码处理。</em></p>
+</blockquote>
+<p>linux IO多路复用有epoll， poll, select，epoll性能比其他几都要好。 那为什么还会有三个呢？之所以有这三个存在，其实是他们出现是有先后顺序的。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>I/O多路复用这个概念被提出来以后， select是第一个实现 (1983 左右在BSD里面实现的)。</p>
+<h4 id="一-、select-被实现以后，很快就暴露出了很多问题。"><a href="#一-、select-被实现以后，很快就暴露出了很多问题。" class="headerlink" title="一 、select 被实现以后，很快就暴露出了很多问题。"></a>一 、select 被实现以后，很快就暴露出了很多问题。</h4><ul>
+<li>select 会修改传入的参数数组，这个对于一个需要调用很多次的函数，是非常不友好的。</li>
+<li>select 如果任何一个sock(I/O stream)出现了数据，select 仅仅会返回，但是并不会告诉你是那个sock上有数据，于是你只能自己一个一个的找，10几个sock可能还好，要是几万的sock每次都找一遍，这个无谓的开销就颇有海天盛筵的豪气了。</li>
+<li>select 只能监视1024个链接， 这个跟草榴没啥关系哦，linux 定义在头文件中的，参见FD_SETSIZE。</li>
+<li>select 不是线程安全的，如果你把一个sock加入到select, 然后突然另外一个线程发现，尼玛，这个sock不用，要收回。对不起，这个select 不支持的，如果你丧心病狂的竟然关掉这个sock, select的标准行为是。。呃。。不可预测的， 这个可是写在文档中的哦.</li>
+</ul>
+<h4 id="二、于是14年以后-1997年）一帮人又实现了poll-poll-修复了select的很多问题"><a href="#二、于是14年以后-1997年）一帮人又实现了poll-poll-修复了select的很多问题" class="headerlink" title="二、于是14年以后(1997年）一帮人又实现了poll, poll 修复了select的很多问题"></a>二、于是14年以后(1997年）一帮人又实现了poll, poll 修复了select的很多问题</h4><ul>
+<li>poll 去掉了1024个链接的限制，于是要多少链接呢， 主人你开心就好。</li>
+<li>poll 从设计上来说，不再修改传入数组，不过这个要看你的平台了，所以行走江湖，还是小心为妙。</li>
+</ul>
+<blockquote>
+<p><strong>其实拖14年那么久也不是效率问题， 而是那个时代的硬件实在太弱，一台服务器处理1千多个链接简直就是神一样的存在了，select很长段时间已经满足需求。</strong></p>
+</blockquote>
+<p>但是<strong>poll仍然不是线程安全的</strong>， 这就意味着，不管服务器有多强悍，你也只能在一个线程里面处理一组I/O流。你当然可以那多进程来配合了，不过然后你就有了多进程的各种问题。</p>
+<p>于是5年以后, 在2002, 大神 Davide Libenzi 实现了epoll.</p>
+<h4 id="三、epoll-可以说是I-O-多路复用最新的一个实现，epoll-修复了poll-和select绝大部分问题"><a href="#三、epoll-可以说是I-O-多路复用最新的一个实现，epoll-修复了poll-和select绝大部分问题" class="headerlink" title="三、epoll 可以说是I/O 多路复用最新的一个实现，epoll 修复了poll 和select绝大部分问题"></a>三、epoll 可以说是I/O 多路复用最新的一个实现，epoll 修复了poll 和select绝大部分问题</h4><ul>
+<li>epoll 现在是线程安全的。</li>
+<li>epoll 现在不仅告诉你socket组里面数据，还会告诉你具体哪个socket有数据，你不用自己去找了。 </li>
+</ul>
+<h3 id="最后举个例子来说明"><a href="#最后举个例子来说明" class="headerlink" title="最后举个例子来说明"></a>最后举个例子来说明</h3><p>一个饭店服务员（一个线程），店里有10几桌客人等点餐(先看menu)，突然有一桌客户叫“服务员点菜”（事件），你小跑过去给记录一下点的东西，然后就让客人等上菜，突然又一桌要点菜，你又过去下单，就这样一个服务员服务好多桌，有时可能其他桌都在讨论点什么好并不点单，这时服务员处于空闲状态，可以干点别的玩玩手机。至于epoll与select，poll的区别在于后两者的场景中客人不喊服务器，你要挨个问要不要点菜，没时间玩手机了。io多路复用大概就是指这多桌客人(一般餐厅一片区域)共用一个服务员。</p>
 
-<p>看看项目，这个类是存在的，但有一个细节：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultHttpClient</span> <span class="keyword">extends</span> <span class="title">AbstractHttpClient</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>已经不建议用了。</p>
-<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>很简单见<a href="https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library" target="_blank" rel="noopener">链接</a></p>
-<p>Specify requirement for Apache HTTP Legacy library</p>
-<p>If you are using <code>com.google.android.gms:play-services-maps:16.0.0</code> or below and your app is targeting API level 28 (Android 9.0) or above, you must include the following declaration within the <code>&lt;application&gt;</code> element of<code>AndroidManifest.xml</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-library</span><br><span class="line">     android:name=<span class="string">"org.apache.http.legacy"</span></span><br><span class="line">     android:required=<span class="string">"false"</span> /&gt;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -480,15 +503,6 @@
 
     <footer class="post-footer">
       
-        
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/android/" rel="tag"># android</a>
-          
-        </div>
-      
 
       
       
@@ -498,8 +512,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/15/flutter-start/" rel="next" title="初识flutter">
-                <i class="fa fa-chevron-left"></i> 初识flutter
+              <a href="/2019/11/26/mq-in-distributed-transaction/" rel="next" title="MQ in distributed transaction">
+                <i class="fa fa-chevron-left"></i> MQ in distributed transaction
               </a>
             
           </div>
@@ -507,10 +521,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/26/paxos/" rel="prev" title="paxos">
-                paxos <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -681,7 +691,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-1-ClassNotFoundException"><span class="nav-number">1.</span> <span class="nav-text">Crash 1 ClassNotFoundException</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是多路复用"><span class="nav-number">1.</span> <span class="nav-text">什么是多路复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-、select-被实现以后，很快就暴露出了很多问题。"><span class="nav-number">2.1.</span> <span class="nav-text">一 、select 被实现以后，很快就暴露出了很多问题。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、于是14年以后-1997年）一帮人又实现了poll-poll-修复了select的很多问题"><span class="nav-number">2.2.</span> <span class="nav-text">二、于是14年以后(1997年）一帮人又实现了poll, poll 修复了select的很多问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、epoll-可以说是I-O-多路复用最新的一个实现，epoll-修复了poll-和select绝大部分问题"><span class="nav-number">2.3.</span> <span class="nav-text">三、epoll 可以说是I/O 多路复用最新的一个实现，epoll 修复了poll 和select绝大部分问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后举个例子来说明"><span class="nav-number">3.</span> <span class="nav-text">最后举个例子来说明</span></a></li></ol></div>
             
 
           </div>
