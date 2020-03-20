@@ -103,13 +103,13 @@
 <meta property="og:site_name" content="Colingo&#39;s Home">
 <meta property="og:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://colinger.github.io/.io//20180423164809333.png">
-<meta property="og:image" content="http://colinger.github.io/.io//2018042316482657.png">
+<meta property="og:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/20180423164809333.png">
+<meta property="og:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/2018042316482657.png">
 <meta property="og:updated_time" content="2020-03-20T14:51:05.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="io-multiplexing(多路复用)">
 <meta name="twitter:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
-<meta name="twitter:image" content="http://colinger.github.io/.io//20180423164809333.png">
+<meta name="twitter:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/20180423164809333.png">
 
 
 
@@ -451,12 +451,12 @@
 <h3 id="什么是多路复用"><a href="#什么是多路复用" class="headerlink" title="什么是多路复用"></a>什么是多路复用</h3><p><em>“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing. 如果你搜索multiplexing啥意思，基本上都会出这个图：</em></p>
 <a id="more"></a>
 
-<p><img src="/.io//20180423164809333.png" alt="I/O multiplexing"></p>
+<p><img src="//colinger.github.io/2020/03/20/io-multiplexing/20180423164809333.png" alt="I/O multiplexing"></p>
 <blockquote>
 <p>多路复用通常表示在<strong>一个信道</strong>上<strong>传输</strong>多路<strong>信号</strong>。</p>
 </blockquote>
 <p><strong>I/O multiplexing中的multiplexing是指在单个线程通过记录跟踪一个I/O流的状态来同时管理多个I/O流。</strong>发名它的的原因，是尽量多的提高服务器的吞吐能力。看一下图能直观了解究竟是怎么回事：</p>
-<p><img src="/.io//2018042316482657.png" alt></p>
+<p><img src="//colinger.github.io/2020/03/20/io-multiplexing/2018042316482657.png" alt></p>
 <blockquote>
 <p>在同一个线程里面， 通过拨开关的方式，来同时传输多个I/O流。<br><em>nginx使用epoll接收请求的过程是怎样的”， 多看看这个图就了解了。ngnix会有很多链接进来， epoll会把他们都监视起来，然后像拨开关一样，谁有数据就拨向谁，然后调用相应的代码处理。</em></p>
 </blockquote>
