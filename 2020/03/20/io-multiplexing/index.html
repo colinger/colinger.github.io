@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/20180423164809333.png">
 <meta property="og:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/2018042316482657.png">
-<meta property="og:updated_time" content="2020-03-20T14:51:05.440Z">
+<meta property="og:updated_time" content="2020-03-21T02:05:46.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="io-multiplexing(多路复用)">
 <meta name="twitter:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I/O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I/O多路复用在英文中其实叫 I/O multiplexing.">
@@ -390,12 +390,24 @@
                 
               
 
-              <time title="创建时间：2020-03-20 22:11:39 / 修改时间：22:51:05" itemprop="dateCreated datePublished" datetime="2020-03-20T22:11:39+08:00">2020-03-20</time>
+              <time title="创建时间：2020-03-20 22:11:39" itemprop="dateCreated datePublished" datetime="2020-03-20T22:11:39+08:00">2020-03-20</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-21 10:05:46" itemprop="dateModified" datetime="2020-03-21T10:05:46+08:00">2020-03-21</time>
               
             
           </span>
@@ -482,6 +494,7 @@
 <li>epoll 现在不仅告诉你socket组里面数据，还会告诉你具体哪个socket有数据，你不用自己去找了。 </li>
 </ul>
 <h3 id="最后举个例子来说明"><a href="#最后举个例子来说明" class="headerlink" title="最后举个例子来说明"></a>最后举个例子来说明</h3><p>一个饭店服务员（一个线程），店里有10几桌客人等点餐(先看menu)，突然有一桌客户叫“服务员点菜”（事件），你小跑过去给记录一下点的东西，然后就让客人等上菜，突然又一桌要点菜，你又过去下单，就这样一个服务员服务好多桌，有时可能其他桌都在讨论点什么好并不点单，这时服务员处于空闲状态，可以干点别的玩玩手机。至于epoll与select，poll的区别在于后两者的场景中客人不喊服务器，你要挨个问要不要点菜，没时间玩手机了。io多路复用大概就是指这多桌客人(一般餐厅一片区域)共用一个服务员。</p>
+<p><a href="https://blog.csdn.net/Happy_wu/article/details/80052617" target="_blank" rel="noopener">原文链接</a></p>
 
       
     </div>
@@ -521,6 +534,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/21/ddd-pieces/" rel="prev" title="ddd零碎记录">
+                ddd零碎记录 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -597,7 +614,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -628,7 +645,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -653,7 +672,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
