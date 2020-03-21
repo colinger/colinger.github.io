@@ -96,23 +96,23 @@
 
 
 
-  <meta name="description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。 确定聚合边界要满足固定规则（Invariant），是指在数据变化时必须保持的一致性规则，具体规则如下：  根实体具有全局标识，最终负责检查规">
+  <meta name="description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。">
 <meta name="keywords" content="架构, 设计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ddd零碎记录">
 <meta property="og:url" content="http://colinger.github.io/2020/03/21/ddd-pieces/index.html">
 <meta property="og:site_name" content="Colingo&#39;s Home">
-<meta property="og:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。 确定聚合边界要满足固定规则（Invariant），是指在数据变化时必须保持的一致性规则，具体规则如下：  根实体具有全局标识，最终负责检查规">
+<meta property="og:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/a20873698bab8973d0bf10b09a1e7694.png">
 <meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f1ff5a81e459a41fd92ff9827f51a94c.png">
 <meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f4053830a38294ba652e65ff6c104e35.png">
 <meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/e518ac7f9060a74aef9de08c66ebd8bf.png">
 <meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/14f854789211df11a124f99ff71a89cc.png">
-<meta property="og:updated_time" content="2020-03-21T02:31:36.037Z">
+<meta property="og:updated_time" content="2020-03-21T02:34:59.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ddd零碎记录">
-<meta name="twitter:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。 确定聚合边界要满足固定规则（Invariant），是指在数据变化时必须保持的一致性规则，具体规则如下：  根实体具有全局标识，最终负责检查规">
+<meta name="twitter:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。">
 <meta name="twitter:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/a20873698bab8973d0bf10b09a1e7694.png">
 
 
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2020-03-21 09:57:22 / 修改时间：10:31:36" itemprop="dateCreated datePublished" datetime="2020-03-21T09:57:22+08:00">2020-03-21</time>
+              <time title="创建时间：2020-03-21 09:57:22 / 修改时间：10:34:59" itemprop="dateCreated datePublished" datetime="2020-03-21T09:57:22+08:00">2020-03-21</time>
             
 
             
@@ -453,6 +453,8 @@
       
         <p>领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。</p>
 <h3 id="聚合根-Aggreagte"><a href="#聚合根-Aggreagte" class="headerlink" title="聚合根(Aggreagte)"></a>聚合根(Aggreagte)</h3><p>一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。</p>
+<a id="more"></a>
+
 <p>确定聚合边界要满足固定规则（Invariant），是指在数据变化时必须保持的一致性规则，具体规则如下：</p>
 <ul>
 <li>根实体具有全局标识，最终负责检查规定规则</li>
