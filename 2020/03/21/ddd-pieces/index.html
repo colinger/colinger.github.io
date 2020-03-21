@@ -105,11 +105,11 @@
 <meta property="og:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/a20873698bab8973d0bf10b09a1e7694.png">
-<meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f1ff5a81e459a41fd92ff9827f51a94c.png">
-<meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f4053830a38294ba652e65ff6c104e35.png">
-<meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/e518ac7f9060a74aef9de08c66ebd8bf.png">
-<meta property="og:image" content="http://colinger.github.io/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/14f854789211df11a124f99ff71a89cc.png">
-<meta property="og:updated_time" content="2020-03-21T02:34:59.290Z">
+<meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/f1ff5a81e459a41fd92ff9827f51a94c.png">
+<meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/f4053830a38294ba652e65ff6c104e35.png">
+<meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/e518ac7f9060a74aef9de08c66ebd8bf.png">
+<meta property="og:image" content="http://colinger.github.io/2020/03/21/ddd-pieces/14f854789211df11a124f99ff71a89cc.png">
+<meta property="og:updated_time" content="2020-03-21T02:37:18.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ddd零碎记录">
 <meta name="twitter:description" content="领域驱动设计里有好多概念不好理解，本篇主要记录一些自己看到的，自觉有助于自己理解的碎片知识。 聚合根(Aggreagte)一种更大范围的封装，把一组有相同生命周期、在业务上不可分隔的实体和值对象放在一起考虑，只有根实体可以对外暴露引用，也是一种内聚性的表现。">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2020-03-21 09:57:22 / 修改时间：10:34:59" itemprop="dateCreated datePublished" datetime="2020-03-21T09:57:22+08:00">2020-03-21</time>
+              <time title="创建时间：2020-03-21 09:57:22 / 修改时间：10:37:18" itemprop="dateCreated datePublished" datetime="2020-03-21T09:57:22+08:00">2020-03-21</time>
             
 
             
@@ -477,7 +477,7 @@
 </ol>
 <h4 id="应用服务和领域服务如何划分"><a href="#应用服务和领域服务如何划分" class="headerlink" title="应用服务和领域服务如何划分"></a>应用服务和领域服务如何划分</h4><p>在领域建模中，我们一般将系统划分三个大的层次，即应用层（Application Layer），领域层（Domain Layer）和基础实施层（Infrastructure Layer）。可以看到在App层和Domain层都有服务（Service），这两个Service如何划分呢，什么样的功能应该放在应用层，什么样的功能应该放在领域层呢？<br>决定一个服务（Service）应该归属于哪一层是很困难的。<strong>如果所执行的操作概念上属于应用层，那么服务就应该放到这个层。如果操作是关于领域对象的，而且确实是与领域有关的、为领域的需要服务，那么它就应该属于领域层</strong>。</p>
 <p>总的来说，涉及到重要领域概念的行为应该放在Domain层，而其它非领域逻辑的技术代码放在App层，例如参数的解析，上下文的组装，调用领域服务，消息发送等。还是银行转账的case为例，下图给出了划分的建议：</p>
-<p><img src="/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f1ff5a81e459a41fd92ff9827f51a94c.png" alt></p>
+<p><img src="//colinger.github.io/2020/03/21/ddd-pieces/f1ff5a81e459a41fd92ff9827f51a94c.png" alt></p>
 <h3 id="边界上下文-Bounded-Context"><a href="#边界上下文-Bounded-Context" class="headerlink" title="边界上下文(Bounded Context)"></a>边界上下文(Bounded Context)</h3><p>领域实体是有边界上下文的，比如Apple这个实体不同的上下文，表达的含义就完全不一样，在水果店它就是水果，在苹果专卖店它就是手机。</p>
 <p>所以边界上下文（Bounded Context）在DDD里面是一个非常重要的概念，Bounded Context明确地限定了模型的应用范围，在Context中，要保证模型在逻辑上统一，而不用考虑它是不是适用于边界之外的情况。在其他Context中，会使用其他模型，这些模型具有不同的术语、概念、规则和Ubiquitous Language的行话。</p>
 <blockquote>
@@ -487,7 +487,7 @@
 <p>Mapping的方式有很多种，有Shared Kernal（共享内核），Conformist（追随者），以及Anti-Corruption（防腐层）等等。</p>
 <p>比较推崇Domain Event + AC，这样可以将系统之间的耦合降到最低。</p>
 <p>以我们真实的业务场景举个例子，比如会员这个概念在ICBU网站是指网站上的Buyer，但是在CRM领域是指Customer，虽然很多的属性都是一样的，但是二者在不同的Context下其语义和概念是有差别的，我们需要用AC做一下转换：</p>
-<p><img src="/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/f4053830a38294ba652e65ff6c104e35.png" alt></p>
+<p><img src="//colinger.github.io/2020/03/21/ddd-pieces/f4053830a38294ba652e65ff6c104e35.png" alt></p>
 <h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><h4 id="模型重构"><a href="#模型重构" class="headerlink" title="模型重构"></a>模型重构</h4><p>最后我想强调的是，建模不是一次性的工作，也不可能是一次性的工作，业务在演化，随之而来的模型也需要演化和重构，当模型和业务部匹配的时候，你还是要霸王硬上弓的往里面塞，其结果可想而知。</p>
 <blockquote>
 <p>这个好难呀，现实项目，一个需求一个需求的迭代，可能没时间去模型重构，时间长了就变成了大泥球了。</p>
@@ -499,10 +499,10 @@
 <li>演变一：<br>随着业务的发展，我们需要支持ATM账号和Online账号，而Online账号是不能withdraw的，此时最差的做法是保持模型不变，而是在withdraw方法中判断如果是OnlineAccount则抛出异常。这种简单的代码堆砌可以满足业务功能，但是其业务语义完全被掩盖。更好的重构方法应该是将withdraw抽成一个接口IWithdrawable。</li>
 <li>演变二：<br>好的，没有什么可以阻挡业务对变化的向往。现在公司出于安全性的考虑，为新开通的ATMAccount设置了取款上线，超过则不能支取。简单做法是在IWithdrawable中再加入一个setLimit行为，可是我们并不想改动影响到老的账号业务，所以更好的重构应该是重新写一个ILimitedWithdrawable接口，让其继承老接口，这样老的代码就可以保持不变了。</li>
 </ul>
-<p><img src="/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/e518ac7f9060a74aef9de08c66ebd8bf.png" alt></p>
+<p><img src="//colinger.github.io/2020/03/21/ddd-pieces/e518ac7f9060a74aef9de08c66ebd8bf.png" alt></p>
 <p>通过上面的例子，我们可以看到领域模型和面向对象是一对孪生兄弟，我们会用到大量的OO原则，比如上面的重构就用到了SOLID的SRP（单一职责）和OCP（开闭原则）。在实际工作中，我的确也有这样的体会，自从践行DDD以后，我们采用OOA和OOD的时候比以前明显多了很多，OO的能力也在不断的提升。</p>
 <p>#####<strong>引入新抽象</strong></p>
-<p>还是以开篇的转账来举个例子，假如转账业务开始变的复杂，要支持现金，信用卡，支付宝，比特币等多种通道，且没种通道的约束不一样，还要支持一对多的转账。那么你还是用一个$transfer(fromAccount, toAccount)$就不合适了，可能需要抽象出一个专门的领域对象Transaction，这样才能更好的表达业务，其演化过程如下：<br><img src="/Users/cg/workspace/workspace-uml/blogs/blog/source/_posts/ddd-pieces/14f854789211df11a124f99ff71a89cc.png" alt></p>
+<p>还是以开篇的转账来举个例子，假如转账业务开始变的复杂，要支持现金，信用卡，支付宝，比特币等多种通道，且没种通道的约束不一样，还要支持一对多的转账。那么你还是用一个$transfer(fromAccount, toAccount)$就不合适了，可能需要抽象出一个专门的领域对象Transaction，这样才能更好的表达业务，其演化过程如下：<br><img src="//colinger.github.io/2020/03/21/ddd-pieces/14f854789211df11a124f99ff71a89cc.png" alt></p>
 <p>————————————————<br>版权声明：本文为CSDN博主「张建飞（Frank）」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/significantfrank/article/details/79614915" target="_blank" rel="noopener">https://blog.csdn.net/significantfrank/article/details/79614915</a></p>
 
       
