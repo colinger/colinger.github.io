@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="paxos怎么读？p-a-x-o-s 或 [peksəs]，后面的更好一点吧。就像设计模式一样，知道一个模式的名称才能更好和与别人沟通，交流。算法也一样，向别个介绍或和别人一起讨论的时候，用[peksəs]更好。 paxso中涉及的一些名词，每个人翻译都不一样，有的用英文表达更直观，有的用中文翻译更好理解。比如，process有人翻译为进程，有人翻译为服务器，有的人就直接说process。再比如”">
-<meta name="keywords" content="paxos">
+  <meta name="description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
+<meta name="keywords" content="wms, inventory">
 <meta property="og:type" content="article">
-<meta property="og:title" content="paxos">
-<meta property="og:url" content="http://colinger.github.io/2019/07/26/paxos/index.html">
+<meta property="og:title" content="WMS库存中心">
+<meta property="og:url" content="http://colinger.github.io/2021/03/21/wms-inventory/index.html">
 <meta property="og:site_name" content="太乙的碎碎念">
-<meta property="og:description" content="paxos怎么读？p-a-x-o-s 或 [peksəs]，后面的更好一点吧。就像设计模式一样，知道一个模式的名称才能更好和与别人沟通，交流。算法也一样，向别个介绍或和别人一起讨论的时候，用[peksəs]更好。 paxso中涉及的一些名词，每个人翻译都不一样，有的用英文表达更直观，有的用中文翻译更好理解。比如，process有人翻译为进程，有人翻译为服务器，有的人就直接说process。再比如”">
+<meta property="og:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-26T14:30:10.512Z">
+<meta property="og:updated_time" content="2021-03-22T23:50:38.234Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="paxos">
-<meta name="twitter:description" content="paxos怎么读？p-a-x-o-s 或 [peksəs]，后面的更好一点吧。就像设计模式一样，知道一个模式的名称才能更好和与别人沟通，交流。算法也一样，向别个介绍或和别人一起讨论的时候，用[peksəs]更好。 paxso中涉及的一些名词，每个人翻译都不一样，有的用英文表达更直观，有的用中文翻译更好理解。比如，process有人翻译为进程，有人翻译为服务器，有的人就直接说process。再比如”">
+<meta name="twitter:title" content="WMS库存中心">
+<meta name="twitter:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://colinger.github.io/2019/07/26/paxos/">
+  <link rel="canonical" href="http://colinger.github.io/2021/03/21/wms-inventory/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>paxos | 太乙的碎碎念</title>
+  <title>WMS库存中心 | 太乙的碎碎念</title>
   
 
 
@@ -345,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/07/26/paxos/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/03/21/wms-inventory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Colingo">
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">paxos
+          <h1 class="post-title" itemprop="name headline">WMS库存中心
 
               
             
@@ -388,34 +388,28 @@
                 
               
 
-              <time title="创建时间：2019-07-26 16:53:51 / 修改时间：22:30:10" itemprop="dateCreated datePublished" datetime="2019-07-26T16:53:51+08:00">2019-07-26</time>
+              <time title="创建时间：2021-03-21 09:51:41" itemprop="dateCreated datePublished" datetime="2021-03-21T09:51:41+08:00">2021-03-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-23 07:50:38" itemprop="dateModified" datetime="2021-03-23T07:50:38+08:00">2021-03-23</time>
               
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/分布式-一致性算法/" itemprop="url" rel="index"><span itemprop="name">分布式, 一致性算法</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -445,20 +439,15 @@
       
 
       
-        <p>paxos怎么读？p-a-x-o-s 或 [peksəs]，后面的更好一点吧。就像设计模式一样，知道一个模式的名称才能更好和与别人沟通，交流。算法也一样，向别个介绍或和别人一起讨论的时候，用[peksəs]更好。</p>
-<p>paxso中涉及的一些名词，每个人翻译都不一样，有的用英文表达更直观，有的用中文翻译更好理解。比如，process有人翻译为<strong>进程</strong>，有人翻译为<strong>服务器</strong>，有的人就直接说<strong>process</strong>。再比如”决议“,《Paxos Made Simple》里面就是用”value”表式，是不是想不到，这么正式的名词”议“居然就是”value”.</p>
-<a id="more"></a>
-
-<p><strong>P1:  对于接收到的第一个议案(proposal)，审核人(acceptor)必须初审通过</strong><br><strong>P2： 如果一个编号为n内容为v的议案(proposal)[用(n,v)表示]，进入复审阶段，那么所有进入复审阶段的议案编号大于n的议案，它们的议案内容也为v。</strong></p>
-<blockquote>
-<p>这里我不太明白，为什么进入复审的议案，编号大于n的议案，为什么V是相同的？怎么能保证呢？</p>
-<p>于是为了保证没有问题？如果要满足P2，只要满足下面的P2a，就可以。</p>
-</blockquote>
-<p><strong>P2a：如果议案(n,v)进入复审阶段，那么所有通过初审的编号大于n的议案的内容为v。</strong></p>
-<blockquote>
-<p>仍然要面对一个问题，因为审核人收到的第一个议案必须通过。如果a，b2个人发送两份不同议案给不同的审核人，因为一些原因，有人可能只收到a的，或b的，而a和b的议案不同。</p>
-</blockquote>
-<p><strong>P2b：如果议案(n,v)进入复审阶段，那么任何提议人提出的编号大于n的议案，议案内容为v。</strong></p>
+        <p>业务库存，在途库存，虚拟(以销定采)</p>
+<p>实物库存，库位库存，批次库存</p>
+<p>重构库存中心有两种方案</p>
+<p>1.基于现有的功能，服务化，抽象出库存中心的核心能力。</p>
+<p>业务库存基于sm_goods_store，细化一些属性；</p>
+<p>批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。</p>
+<p>库位库存是主要的改动点，当下这块并没有抽象出核心能力：上架，备货，移库，盘点，都是业务强相关的(报损是否应该考虑放在这里？感觉不合适)</p>
+<p>2.重新设计，主要是业务库存和库位库存</p>
+<p>臧老板设计的一套业务库存模型+胡文文设计的；库位库存出需要重新设计。</p>
 
       
     </div>
@@ -485,7 +474,7 @@
         
         <div class="post-tags">
           
-            <a href="/tags/paxos/" rel="tag"># paxos</a>
+            <a href="/tags/wms-inventory/" rel="tag"># wms, inventory</a>
           
         </div>
       
@@ -498,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/19/android-new-version/" rel="next" title="在Android9以后遇到的一些问题整理">
-                <i class="fa fa-chevron-left"></i> 在Android9以后遇到的一些问题整理
+              <a href="/2020/03/21/sofa-note/" rel="next" title="SOFA企业应用框架-笔记">
+                <i class="fa fa-chevron-left"></i> SOFA企业应用框架-笔记
               </a>
             
           </div>
@@ -507,10 +496,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/11/26/fully-understanding-sql/" rel="prev" title="理解SQL">
-                理解SQL <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

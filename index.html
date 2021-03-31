@@ -98,13 +98,13 @@
 
   <meta name="description" content="一片自己我挑战的自留地">
 <meta property="og:type" content="website">
-<meta property="og:title" content="太乙的岁岁念">
+<meta property="og:title" content="太乙的碎碎念">
 <meta property="og:url" content="http://colinger.github.io/index.html">
-<meta property="og:site_name" content="太乙的岁岁念">
+<meta property="og:site_name" content="太乙的碎碎念">
 <meta property="og:description" content="一片自己我挑战的自留地">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="太乙的岁岁念">
+<meta name="twitter:title" content="太乙的碎碎念">
 <meta name="twitter:description" content="一片自己我挑战的自留地">
 
 
@@ -123,7 +123,7 @@
   };
 </script>
 
-  <title>太乙的岁岁念</title>
+  <title>太乙的碎碎念</title>
   
 
 
@@ -183,7 +183,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">太乙的岁岁念</span>
+        <span class="site-title">太乙的碎碎念</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -344,6 +344,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/03/21/wms-inventory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Colingo">
+      <meta itemprop="description" content="一片自己我挑战的自留地">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="太乙的碎碎念">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/03/21/wms-inventory/" class="post-title-link" itemprop="url">WMS库存中心</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-21 09:51:41" itemprop="dateCreated datePublished" datetime="2021-03-21T09:51:41+08:00">2021-03-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-23 07:50:38" itemprop="dateModified" datetime="2021-03-23T07:50:38+08:00">2021-03-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>业务库存，在途库存，虚拟(以销定采)</p>
+<p>实物库存，库位库存，批次库存</p>
+<p>重构库存中心有两种方案</p>
+<p>1.基于现有的功能，服务化，抽象出库存中心的核心能力。</p>
+<p>业务库存基于sm_goods_store，细化一些属性；</p>
+<p>批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。</p>
+<p>库位库存是主要的改动点，当下这块并没有抽象出核心能力：上架，备货，移库，盘点，都是业务强相关的(报损是否应该考虑放在这里？感觉不合适)</p>
+<p>2.重新设计，主要是业务库存和库位库存</p>
+<p>臧老板设计的一套业务库存模型+胡文文设计的；库位库存出需要重新设计。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2020/03/21/sofa-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -353,7 +516,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -389,12 +552,24 @@
                 
               
 
-              <time title="创建时间：2020-03-21 11:11:27 / 修改时间：11:46:01" itemprop="dateCreated datePublished" datetime="2020-03-21T11:11:27+08:00">2020-03-21</time>
+              <time title="创建时间：2020-03-21 11:11:27" itemprop="dateCreated datePublished" datetime="2020-03-21T11:11:27+08:00">2020-03-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-21 10:01:26" itemprop="dateModified" datetime="2021-03-21T10:01:26+08:00">2021-03-21</time>
               
             
           </span>
@@ -448,7 +623,8 @@
       
         
           
-            <h3 id="复杂性来自哪里"><a href="#复杂性来自哪里" class="headerlink" title="复杂性来自哪里"></a>复杂性来自哪里</h3><h4 id="可扩展性差"><a href="#可扩展性差" class="headerlink" title="可扩展性差"></a>可扩展性差</h4><p>对于只有一个业务的简单场景，并不需要扩展，问题也不突出，这也是为什么这个点经常被忽略的原因，因为我们大部分的系统都是从单一业务开始的。但是随着支持的业务越来越多，代码里面开始出现大量的if-else逻辑，这个时候代码开始有坏味道，没闻到的同学就这么继续往上堆，闻到的同学会重构一下，但因为系统没有统一的可扩展架构，重构的技法也各不相同，这种代码的不一致性也是一种理解上的复杂度。久而久之，系统就变得复杂难维护。像我们CRM应用，有N个业务方，每个业务方又有N个租户，如果都要用if-else判断业务差异，那简直就是惨绝人寰。其实这种扩展点（Extension Point），或者叫插件（Plug-in）的设计在架构设计中是非常普遍的。比较成功的案例有eclipse的plug-in机制，集团的TMF2.0架构。还有一个扩展性需求就是字段扩展，这一点对SaaS应用尤为重要，因为有很多客户定制化需求，但是我们很多系统也没有统一的字段扩展方案。</p>
+            <p>本文来自己张健飞的blog。</p>
+<h3 id="复杂性来自哪里"><a href="#复杂性来自哪里" class="headerlink" title="复杂性来自哪里"></a>复杂性来自哪里</h3><h4 id="可扩展性差"><a href="#可扩展性差" class="headerlink" title="可扩展性差"></a>可扩展性差</h4><p>对于只有一个业务的简单场景，并不需要扩展，问题也不突出，这也是为什么这个点经常被忽略的原因，因为我们大部分的系统都是从单一业务开始的。但是随着支持的业务越来越多，代码里面开始出现大量的if-else逻辑，这个时候代码开始有坏味道，没闻到的同学就这么继续往上堆，闻到的同学会重构一下，但因为系统没有统一的可扩展架构，重构的技法也各不相同，这种代码的不一致性也是一种理解上的复杂度。久而久之，系统就变得复杂难维护。像我们CRM应用，有N个业务方，每个业务方又有N个租户，如果都要用if-else判断业务差异，那简直就是惨绝人寰。其实这种扩展点（Extension Point），或者叫插件（Plug-in）的设计在架构设计中是非常普遍的。比较成功的案例有eclipse的plug-in机制，集团的TMF2.0架构。还有一个扩展性需求就是字段扩展，这一点对SaaS应用尤为重要，因为有很多客户定制化需求，但是我们很多系统也没有统一的字段扩展方案。</p>
 <blockquote>
 <p>If-else， 字段扩展<br>对于字段扩展，简单一点的解决方案就是预留扩展字段，复杂一点的就是使用元数据引擎。使用元数据的好处是不仅能支持字段扩展，还提供了丰富的字段描述，等于是为以后的SaaS化配置提供了可能性，所以我们选择了使用元数据引擎。</p>
 </blockquote>
@@ -531,7 +707,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -699,7 +875,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -879,7 +1055,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1049,7 +1225,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1217,7 +1393,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1385,7 +1561,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1553,7 +1729,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1721,7 +1897,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的岁岁念">
+      <meta itemprop="name" content="太乙的碎碎念">
     </span>
 
     
@@ -1919,7 +2095,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1983,7 +2159,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
