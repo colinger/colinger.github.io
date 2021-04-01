@@ -105,7 +105,7 @@
 <meta property="og:description" content="本文来自己张健飞的blog。 复杂性来自哪里可扩展性差对于只有一个业务的简单场景，并不需要扩展，问题也不突出，这也是为什么这个点经常被忽略的原因，因为我们大部分的系统都是从单一业务开始的。但是随着支持的业务越来越多，代码里面开始出现大量的if-else逻辑，这个时候代码开始有坏味道，没闻到的同学就这么继续往上堆，闻到的同学会重构一下，但因为系统没有统一的可扩展架构，重构的技法也各不相同，这种代码的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://colinger.github.io/2020/03/21/sofa-note/b6f0b6b506cf38164df0ae9e90f95e29.png">
-<meta property="og:updated_time" content="2021-03-21T02:01:26.513Z">
+<meta property="og:updated_time" content="2021-04-01T07:34:09.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SOFA企业应用框架-笔记">
 <meta name="twitter:description" content="本文来自己张健飞的blog。 复杂性来自哪里可扩展性差对于只有一个业务的简单场景，并不需要扩展，问题也不突出，这也是为什么这个点经常被忽略的原因，因为我们大部分的系统都是从单一业务开始的。但是随着支持的业务越来越多，代码里面开始出现大量的if-else逻辑，这个时候代码开始有坏味道，没闻到的同学就这么继续往上堆，闻到的同学会重构一下，但因为系统没有统一的可扩展架构，重构的技法也各不相同，这种代码的">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-21 10:01:26" itemprop="dateModified" datetime="2021-03-21T10:01:26+08:00">2021-03-21</time>
+                <time title="修改时间：2021-04-01 15:34:09" itemprop="dateModified" datetime="2021-04-01T15:34:09+08:00">2021-04-01</time>
               
             
           </span>
@@ -464,6 +464,8 @@
 <blockquote>
 <p>If-else， 字段扩展<br>对于字段扩展，简单一点的解决方案就是预留扩展字段，复杂一点的就是使用元数据引擎。使用元数据的好处是不仅能支持字段扩展，还提供了丰富的字段描述，等于是为以后的SaaS化配置提供了可能性，所以我们选择了使用元数据引擎。</p>
 </blockquote>
+<a id="more"></a>
+
 <h4 id="面向过程"><a href="#面向过程" class="headerlink" title="面向过程"></a>面向过程</h4><p>不管你承认与否，很多时候，我们都是操着面向对象的语言干着面向过程的勾当。面向对象不仅是一个语言，更是一种思维方式。在我们追逐云计算、深度学习、区块链这些技术热点的时候，静下心来问问自己我们是不是真的掌握了OOD；在我们强调工程师要具备业务Sense，产品Sense，数据Sense，算法Sense，XXSense的时候，是不是忽略了对工程能力的要求。据我观察大部分工程师（包括我自己）的OO能力还远没有达到精通的程度，这种OO思想的缺乏主要体现在两个方面，一个是很多同学不了解<strong>SOLID原则</strong>，不懂<strong>设计模式</strong>，不会画<strong>UML图</strong>，或者只是知道，但从来不会运用到实践中；另一个是不会进行领域建模，关于领域建模争论已经很多了，我的观点是DDD很好，但不是银弹，用和不用取决于场景。但不管怎样，请你抛开偏见，好好的研读一下Eric Evans的《领域驱动设计》，如果有认知升级的感悟，恭喜你，你进阶了。我个人认为DDD最大的好处是将业务语义显现化，把原先晦涩难懂的业务算法逻辑，通过领域对象（Domain Object），统一语言（Ubiquitous Language）将领域概念清晰的显性化表达出来。相信我，这种表达带来的代码可读性的提升，会让接手你代码的人对你心怀感恩的。</p>
 <blockquote>
 <p>看一下公司项目的Java代码，基本上都是面向过程，垒砖头的代码。</p>

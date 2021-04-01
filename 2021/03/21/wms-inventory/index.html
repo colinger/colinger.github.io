@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
+  <meta name="description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存">
 <meta name="keywords" content="wms, inventory">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WMS库存中心">
 <meta property="og:url" content="http://colinger.github.io/2021/03/21/wms-inventory/index.html">
 <meta property="og:site_name" content="太乙的碎碎念">
-<meta property="og:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
+<meta property="og:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-22T23:50:38.234Z">
+<meta property="og:updated_time" content="2021-04-01T07:35:05.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WMS库存中心">
-<meta name="twitter:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存 重构库存中心有两种方案 1.基于现有的功能，服务化，抽象出库存中心的核心能力。 业务库存基于sm_goods_store，细化一些属性； 批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。 库位库存是主要的改动">
+<meta name="twitter:description" content="业务库存，在途库存，虚拟(以销定采) 实物库存，库位库存，批次库存">
 
 
 
@@ -405,7 +405,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-23 07:50:38" itemprop="dateModified" datetime="2021-03-23T07:50:38+08:00">2021-03-23</time>
+                <time title="修改时间：2021-04-01 15:35:05" itemprop="dateModified" datetime="2021-04-01T15:35:05+08:00">2021-04-01</time>
               
             
           </span>
@@ -441,9 +441,10 @@
       
         <p>业务库存，在途库存，虚拟(以销定采)</p>
 <p>实物库存，库位库存，批次库存</p>
+<a id="more"></a>
+
 <p>重构库存中心有两种方案</p>
 <p>1.基于现有的功能，服务化，抽象出库存中心的核心能力。</p>
-<p>业务库存基于sm_goods_store，细化一些属性；</p>
 <p>批次库存基本不用动，目前批次缺少的是对批次生成的策略管理，目前我们是根据生产日期和收货日期来生成的，可以满足我们实际情况。批次目前的核心三个能力是：生成，增加，减少，查询。</p>
 <p>库位库存是主要的改动点，当下这块并没有抽象出核心能力：上架，备货，移库，盘点，都是业务强相关的(报损是否应该考虑放在这里？感觉不合适)</p>
 <p>2.重新设计，主要是业务库存和库位库存</p>
