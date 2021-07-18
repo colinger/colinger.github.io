@@ -105,7 +105,7 @@
 <meta property="og:description" content="系统都微服务了，事务怎么办？今天来说说。 在电商系统中，当有用户下单后，除了在订单表插入一条记录外，对应商品表的这个商量数量必须减一，怎么保证？用户参加活动下单记录保存后，也需要在活动系统中增加一个记录，如何保证？在搜索广告系统中，当用户点平台广告后，除了在点击事件表中增加一条记录外，还得去商家账户表中找到这个商家，并扣除平广告费，如何保证都操作成功？等等，很多系统中都会有类似的情景。 这些问题本">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://colinger.github.io/2019/11/26/mq-in-distributed-transaction/913887-20160328134152238-1470949969.gif">
-<meta property="og:updated_time" content="2021-07-18T07:15:04.123Z">
+<meta property="og:updated_time" content="2021-07-18T07:16:55.979Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MQ in distributed transaction">
 <meta name="twitter:description" content="系统都微服务了，事务怎么办？今天来说说。 在电商系统中，当有用户下单后，除了在订单表插入一条记录外，对应商品表的这个商量数量必须减一，怎么保证？用户参加活动下单记录保存后，也需要在活动系统中增加一个记录，如何保证？在搜索广告系统中，当用户点平台广告后，除了在点击事件表中增加一条记录外，还得去商家账户表中找到这个商家，并扣除平广告费，如何保证都操作成功？等等，很多系统中都会有类似的情景。 这些问题本">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-07-18 15:15:04" itemprop="dateModified" datetime="2021-07-18T15:15:04+08:00">2021-07-18</time>
+                <time title="修改时间：2021-07-18 15:16:55" itemprop="dateModified" datetime="2021-07-18T15:16:55+08:00">2021-07-18</time>
               
             
           </span>
@@ -487,7 +487,7 @@
 <h3 id="分布式事务：两阶段提交协议"><a href="#分布式事务：两阶段提交协议" class="headerlink" title="分布式事务：两阶段提交协议"></a>分布式事务：两阶段提交协议</h3><p>两阶段提交协议（Two-phase Commit：2PC）经常用来实现分布式事务。一般分为<strong>协调器(TC)</strong>和<strong>若干事务执行者(SI)</strong>两种角色，这里的事务执行者就是具体的数据库，协调器可以和事务自执行器在同一台物理机上。</p>
 <p><img src="//colinger.github.io/2019/11/26/mq-in-distributed-transaction/913887-20160328134152238-1470949969.gif" alt="img"></p>
 <blockquote>
-<p>注意：<br>TC或SI把发送或接收到的消息先写到日志里，主要是为了故障后恢复用。如某一SI从故障中恢复后，先检查本机的日志，如果已收到，则提交，如果则回滚。如果是，则再向TC询问一下，确定下一步。如果什么都没有，则很可能在阶段Si就崩溃了，因此需要回滚。</p>
+<p>注意：<br>TC或SI把发送或接收到的消息先写到日志里，主要是为了故障后恢复用。如某一SI从故障中恢复后，先检查本机的日志，如果已收到，则提交，否则回滚。如果是，则再向TC询问一下，确定下一步。如果什么都没有，则很可能在阶段Si就崩溃了，因此需要回滚。</p>
 </blockquote>
 <p>当前实现基于2PC分布试事务相对简单了，java可以使用开源的<a href="https://www.atomikos.com/" target="_blank" rel="noopener">atomikos</a>,快速实现。</p>
 <p>不过使用2pc存在一个问题，就是性能太差，不适合高并发的系统。为什么？</p>
