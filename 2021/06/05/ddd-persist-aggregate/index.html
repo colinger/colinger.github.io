@@ -15,11 +15,11 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
 
 
 
@@ -44,9 +44,9 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Muse',
     version: '7.1.2',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
@@ -97,17 +97,17 @@
 
 
   <meta name="description" content="在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并">
-<meta name="keywords" content="DDD,聚合根,持久化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="聚合根的持久化">
 <meta property="og:url" content="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/index.html">
 <meta property="og:site_name" content="太乙的碎碎念">
 <meta property="og:description" content="在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-05T03:31:52.451Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-05T03:21:39.000Z">
+<meta property="article:modified_time" content="2021-06-05T03:31:52.451Z">
+<meta property="article:author" content="Colingo">
+<meta property="article:tag" content="DDD,聚合根,持久化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="聚合根的持久化">
-<meta name="twitter:description" content="在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/">
+  <link rel="canonical" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/"/>
 
 
 
@@ -164,7 +164,7 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
@@ -225,7 +225,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
 
   </li>
         
@@ -242,7 +242,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>关于</a>
 
   </li>
         
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
 
   </li>
 
@@ -345,16 +345,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Colingo">
-      <meta itemprop="description" content="一片自己我挑战的自留地">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Colingo"/>
+      <meta itemprop="description" content="一片自己我挑战的自留地"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的碎碎念">
+      <meta itemprop="name" content="太乙的碎碎念"/>
     </span>
 
     
@@ -446,7 +446,7 @@
 
       
         <p>在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并不满足大多数的需求！<br>如何优雅的实现持久化？如果我们使用JPA，Hibernate，很多事情无需我们关心，ORM已经处理好了。然而，现在Hibernate这类的ORM在国内已经没有当年那么流行了。Mybatis这类半自动的ORM怎么处理这个问题，更值得思考与讨论。</p>
-<a id="more"></a>
+<span id="more"></span>
 
       
     </div>
@@ -473,7 +473,7 @@
         
         <div class="post-tags">
           
-            <a href="/tags/DDD-聚合根-持久化/" rel="tag"># DDD,聚合根,持久化</a>
+            <a href="/tags/DDD-%E8%81%9A%E5%90%88%E6%A0%B9-%E6%8C%81%E4%B9%85%E5%8C%96/" rel="tag"># DDD,聚合根,持久化</a>
           
         </div>
       
@@ -564,9 +564,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -578,7 +578,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/categories/">
+                      <a href="/categories/%20%7C%7C%20th">
                     
                   
                     
@@ -636,7 +636,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -690,7 +692,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0</div>
 
 
 
@@ -817,7 +819,7 @@
   
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
 
-<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css"/>
 <!-- END LOCAL -->
 
 <script>

@@ -15,11 +15,11 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
 
 
 
@@ -44,9 +44,9 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
@@ -69,7 +69,7 @@
 <script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '',
     scheme: 'Muse',
     version: '7.1.2',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
@@ -97,17 +97,17 @@
 
 
   <meta name="description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
-<meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Android9以后遇到的一些问题整理">
 <meta property="og:url" content="http://colinger.github.io/2019/06/19/android-new-version/index.html">
 <meta property="og:site_name" content="太乙的碎碎念">
 <meta property="og:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-19T03:38:14.722Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-19T03:25:53.000Z">
+<meta property="article:modified_time" content="2019-06-19T03:38:14.722Z">
+<meta property="article:author" content="Colingo">
+<meta property="article:tag" content="android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Android9以后遇到的一些问题整理">
-<meta name="twitter:description" content="Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。 今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://colinger.github.io/2019/06/19/android-new-version/">
+  <link rel="canonical" href="http://colinger.github.io/2019/06/19/android-new-version/"/>
 
 
 
@@ -164,7 +164,7 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
@@ -225,7 +225,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
 
   </li>
         
@@ -242,7 +242,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>关于</a>
 
   </li>
         
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
 
   </li>
 
@@ -345,16 +345,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/06/19/android-new-version/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2019/06/19/android-new-version/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Colingo">
-      <meta itemprop="description" content="一片自己我挑战的自留地">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Colingo"/>
+      <meta itemprop="description" content="一片自己我挑战的自留地"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="太乙的碎碎念">
+      <meta itemprop="name" content="太乙的碎碎念"/>
     </span>
 
     
@@ -447,19 +447,19 @@
       
         <p>Android版本一直在更新，当前在市面上还没有Android Q(10)机子的时候，在一些应用市场上都要求要适配最新的版本了。怎么测试呢，有些云测试平台就有相应的机型可以测试。</p>
 <p>今天要说的是，明明9以下可以运行的APP，为什么在更新之后，上传到市场会报崩溃呢？当然是有原因的，这个篇日志以后会一直更新下去，遇到问题，我会追加在这里。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h3 id="Crash-1-ClassNotFoundException"><a href="#Crash-1-ClassNotFoundException" class="headerlink" title="Crash 1 ClassNotFoundException"></a>Crash 1 ClassNotFoundException</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>在8上，7上都正常运行的app，在9上就崩溃了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">E/AndroidRuntime: FATAL EXCEPTION: Thread-<span class="number">7</span></span><br><span class="line">    Process: com.xxx.xxx, PID: <span class="number">27859</span></span><br><span class="line">    java.lang.NoClassDefFoundError: Failed resolution of: Lorg/apache/http/impl/client/DefaultHttpClient;</span><br><span class="line">        at com.xx.utils.HttpClientUtils.getResponse(HttpClientUtils.java:<span class="number">77</span>)</span><br><span class="line">        at com.xx.xx.client.xxx.toQueryVioltionByCarAction(WeizhangApiClient.java:<span class="number">133</span>)</span><br><span class="line">        at com.xx.xx.activity.XXX$<span class="number">4</span>.run(WeizhangResult.java:<span class="number">175</span>)</span><br><span class="line">     Caused by: java.lang.ClassNotFoundException: Didn<span class="string">'t find class "org.apache.http.impl.client.DefaultHttpClient" on path: DexPathList[[zip file "/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk"],nativeLibraryDirectories=[/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/lib/arm64, /data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/product/lib64]]</span></span><br><span class="line"><span class="string">        at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:195)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">E/AndroidRuntime: FATAL EXCEPTION: Thread-<span class="number">7</span></span><br><span class="line">    Process: com.xxx.xxx, PID: <span class="number">27859</span></span><br><span class="line">    java.lang.NoClassDefFoundError: Failed resolution of: Lorg/apache/http/impl/client/DefaultHttpClient;</span><br><span class="line">        at com.xx.utils.HttpClientUtils.getResponse(HttpClientUtils.java:<span class="number">77</span>)</span><br><span class="line">        at com.xx.xx.client.xxx.toQueryVioltionByCarAction(WeizhangApiClient.java:<span class="number">133</span>)</span><br><span class="line">        at com.xx.xx.activity.XXX$<span class="number">4.</span>run(WeizhangResult.java:<span class="number">175</span>)</span><br><span class="line">     Caused by: java.lang.ClassNotFoundException: Didn<span class="string">&#x27;t find class &quot;org.apache.http.impl.client.DefaultHttpClient&quot; on path: DexPathList[[zip file &quot;/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk&quot;],nativeLibraryDirectories=[/data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/lib/arm64, /data/app/com.xx.xxx-x4rPsfE4-lIkyVKxOSYlXA==/base.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/product/lib64]]</span></span><br><span class="line"><span class="string">        at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:195)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span></span><br><span class="line"><span class="string">        at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span></span><br></pre></td></tr></table></figure>
 
 <p>看看项目，这个类是存在的，但有一个细节：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultHttpClient</span> <span class="keyword">extends</span> <span class="title">AbstractHttpClient</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>已经不建议用了。</p>
-<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>很简单见<a href="https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library" target="_blank" rel="noopener">链接</a></p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>很简单见<a target="_blank" rel="noopener" href="https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library">链接</a></p>
 <p>Specify requirement for Apache HTTP Legacy library</p>
 <p>If you are using <code>com.google.android.gms:play-services-maps:16.0.0</code> or below and your app is targeting API level 28 (Android 9.0) or above, you must include the following declaration within the <code>&lt;application&gt;</code> element of<code>AndroidManifest.xml</code>.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-library</span><br><span class="line">     android:name=<span class="string">"org.apache.http.legacy"</span></span><br><span class="line">     android:required=<span class="string">"false"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-library</span><br><span class="line">     android:name=<span class="string">&quot;org.apache.http.legacy&quot;</span></span><br><span class="line">     android:required=<span class="string">&quot;false&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -585,9 +585,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -599,7 +599,7 @@
                 <div class="site-state-item site-state-categories">
                   
                     
-                      <a href="/categories/">
+                      <a href="/categories/%20%7C%7C%20th">
                     
                   
                     
@@ -657,7 +657,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -695,7 +697,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-1-ClassNotFoundException"><span class="nav-number">1.</span> <span class="nav-text">Crash 1 ClassNotFoundException</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Crash-1-ClassNotFoundException"><span class="nav-number">1.</span> <span class="nav-text">Crash 1 ClassNotFoundException</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -728,7 +730,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0</div>
 
 
 
@@ -855,7 +857,7 @@
   
   <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
 
-<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
+<link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css"/>
 <!-- END LOCAL -->
 
 <script>
