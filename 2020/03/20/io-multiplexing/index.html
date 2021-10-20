@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif Simplified Chinese:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="io-multiplexing(多路复用)">
 <meta property="og:url" content="http://colinger.github.io/2020/03/20/io-multiplexing/index.html">
-<meta property="og:site_name" content="colingo碎碎念">
+<meta property="og:site_name" content="Colingo碎碎念">
 <meta property="og:description" content="nginx， redis，虽然都是单线程，支持高并发的设置典范。但是同时，如何理解，单线程为什么能够支撑很高的并发及吞吐量。原因有很多，比如redis主要是使用内存，没有IO的限制。今天主要是记录一下，另一个重要的原因，就是IO的多路复用。 什么是多路复用“I&#x2F;O多路复用”这个坑爹翻译可能是这个概念在中文里面如此难理解的原因。所谓的I&#x2F;O多路复用在英文中其实叫 I&#x2F;O multiplexing.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://colinger.github.io/2020/03/20/io-multiplexing/20180423164809333.png">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>io-multiplexing(多路复用) | colingo碎碎念</title>
+  <title>io-multiplexing(多路复用) | Colingo碎碎念</title>
   
 
 
@@ -99,10 +99,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">colingo碎碎念</h1>
+      <h1 class="site-title">Colingo碎碎念</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">Programing language, 架构, 分布式, 微服务, iOS, Android</p>
+      <p class="site-subtitle" itemprop="description">Programming language, 架构, 分布式, 微服务, iOS, Android</p>
   </div>
 
   <div class="site-nav-right">
@@ -163,7 +163,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="colingo碎碎念">
+      <meta itemprop="name" content="Colingo碎碎念">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
