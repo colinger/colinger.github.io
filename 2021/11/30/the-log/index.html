@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif Simplified Chinese:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"colinger.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="大约六年前，我加入了LinkedIn。我们刚开始遇到单体集中式数据库的限制，需要开始过渡到一个专门的分布式系统组合。这是一个有趣的经历：我们建立、部署并运行至今的分布式图形数据库、分布式搜索后端、Hadoop安装，以及第一代和第二代键值存储。 在这一过程中，我学到的最有用的东西之一是我们正在构建的许多东西，其核心是一个非常简单的概念：日志。日志有时被称为写前日志或提交日志或交易日志，它的存在时间几">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程师都应该知道的实时数据抽象：日志-1">
+<meta property="og:url" content="http://colinger.github.io/2021/11/30/the-log/index.html">
+<meta property="og:site_name" content="Colingo碎碎念">
+<meta property="og:description" content="大约六年前，我加入了LinkedIn。我们刚开始遇到单体集中式数据库的限制，需要开始过渡到一个专门的分布式系统组合。这是一个有趣的经历：我们建立、部署并运行至今的分布式图形数据库、分布式搜索后端、Hadoop安装，以及第一代和第二代键值存储。 在这一过程中，我学到的最有用的东西之一是我们正在构建的许多东西，其核心是一个非常简单的概念：日志。日志有时被称为写前日志或提交日志或交易日志，它的存在时间几">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://colinger.github.io/2021/11/30/the-log/log1.png">
+<meta property="og:image" content="http://colinger.github.io/2021/11/30/the-log/2active_and_passive_arch.png">
+<meta property="og:image" content="http://colinger.github.io/2021/11/30/the-log/paxos_postcard3.jpeg">
+<meta property="og:image" content="http://colinger.github.io/2021/11/30/the-log/yin-yang4.jpeg">
+<meta property="article:published_time" content="2021-11-29T22:37:09.000Z">
+<meta property="article:modified_time" content="2021-12-01T10:09:08.316Z">
+<meta property="article:author" content="Colingo">
+<meta property="article:tag" content="设计，分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://colinger.github.io/2021/11/30/the-log/log1.png">
+
+<link rel="canonical" href="http://colinger.github.io/2021/11/30/the-log/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>软件工程师都应该知道的实时数据抽象：日志-1 | Colingo碎碎念</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Colingo碎碎念</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Programming language, 架构, 分布式, 微服务, iOS, Android</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/11/30/the-log/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Colingo">
+      <meta itemprop="description" content="一片自己我挑战的自留地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Colingo碎碎念">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件工程师都应该知道的实时数据抽象：日志-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-30 06:37:09" itemprop="dateCreated datePublished" datetime="2021-11-30T06:37:09+08:00">2021-11-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-01 18:09:08" itemprop="dateModified" datetime="2021-12-01T18:09:08+08:00">2021-12-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>大约六年前，我加入了LinkedIn。我们刚开始遇到单体集中式数据库的限制，需要开始过渡到一个专门的分布式系统组合。这是一个有趣的经历：我们建立、部署并运行至今的分布式图形数据库、分布式搜索后端、Hadoop安装，以及第一代和第二代键值存储。</p>
+<p>在这一过程中，我学到的最有用的东西之一是我们正在构建的许多东西，其核心是一个非常简单的概念：日志。日志有时被称为写前日志或提交日志或交易日志，它的存在时间几乎与计算机一样长，是许多分布式数据系统和实时应用架构的核心。</p>
+<p>如果不了解日志，你就无法完全理解数据库、NoSQL存储、键值存储、复制、paxos、hadoop、版本控制或几乎所有的软件系统；然而，大多数软件工程师对它们并不熟悉。我想改变这种状况。在这篇文章中，我将带领你了解关于日志的一切，包括什么是日志以及如何使用日志进行数据整合、实时处理和系统建设。</p>
+<span id="more"></span>
+
+<h3 id="日志是什么？"><a href="#日志是什么？" class="headerlink" title="日志是什么？"></a>日志是什么？</h3><p>日志可能是最简单的存储抽象。它是一个可以追加的、完全按时间排序的记录序列。它看起来像这样：</p>
+<p><img src="/2021/11/30/the-log/log1.png" alt></p>
+<p>记录被追加到日志的末尾，阅读从左到右进行，每条记录都被分配一个唯一的连续的日志条目编号。</p>
+<p>记录的排序定义了一个 “时间 “的概念，因为左边的条目被定义为比右边的条目要早。日志条目编号可以被认为是该条目的 “时间戳”。将这种排序描述为一个时间概念，起初似乎有点奇怪，但它有一个方便的特性，即它与任何特定的物理时钟都是脱钩的。当我们进入分布式系统时，这一属性将变得至关重要。</p>
+<p>记录的内容和格式对于本讨论的目的并不重要。另外，我们不能一直向日志中添加记录，因为我们最终会耗尽空间。我稍后再来讨论这个问题。</p>
+<p>所以，日志与文件或表格没有什么不同。文件是一个字节数组，表是一个记录数组，而日志实际上只是一种表或文件，其中的记录是按时间排序的。</p>
+<p>在这一点上，你可能会想，为什么要讨论这么简单的东西？一个仅有追加记录序列与数据系统有什么关系？答案是，日志有一个特定的目的：它们记录了发生的事情和时间。对于分布式数据系统来说，这在很多方面都是问题的核心所在。</p>
+<p>但在我们深入讨论之前，让我来澄清一些有点混乱的东西。每个程序员都熟悉日志的另一个定义——应用程序可能使用syslog或log4j写出的非结构化的错误信息或跟踪信息到本地文件。为了清楚起见，我将称其为 “应用日志”。应用日志是我所描述的日志概念的一种退化形式。最大的区别在于，文本日志主要是供人阅读的，而我所描述的 “日志 “或 “数据日志 “是为程序性访问而建立的。</p>
+<p>(实际上，如果你想一想，人类阅读个别机器上的日志并不合适。当涉及到许多服务和服务器时，这种方法很快就变成了一种无法管理的策略，而且日志的目的很快就变成了作为查询和图表的输入，以了解许多机器上的行为——对于这种情况，文件中的英文文本并不像这里描述的那种结构化日志那样合适）。</p>
+<h4 id="数据库中的日志"><a href="#数据库中的日志" class="headerlink" title="数据库中的日志"></a>数据库中的日志</h4><p>我不知道日志的概念起源于哪里——可能是像二进制搜索一样，因为太简单了，所以发明者没有意识到这是一项发明。它早在IBM的System R中就出现了。在数据库中的使用与在崩溃时保持各种数据结构和索引的同步有关。为了使其原子化和持久化，数据库使用日志来写出他们将要修改的记录的信息，然后再将这些修改应用到它所维护的所有各种数据结构中。日志是所发生事情的记录，而每个表或索引是这个历史的投射出来的一些有用的数据结构或索引。由于日志是立即持久化的，所以在发生崩溃的情况下，它被用作恢复所有其他持久化结构事件源。</p>
+<p>随着时间的推移，日志的使用从ACID的一个实现细节发展到数据库之间复制数据一个方法。事实证明，发生在数据库上的变化顺序正是保证远程复制数据库同步所需要的。Oracle、MySQL和PostgreSQL包括日志运输协议，将部分日志传输到作为从属数据库的复制数据库中。Oracle已经将日志产品化，作为非Oracle数据用户的一般数据订阅机制，他们的<a target="_blank" rel="noopener" href="http://docs.oracle.com/cd/E11882_01/server.112/e16545/xstrm_intro.htm">XStreams</a>和<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/middleware/goldengate/overview/index.html">GoldenGate</a>以及MySQL和PostgreSQL中的类似设施是许多数据架构的关键组成部分。</p>
+<p>基于此，机器可读日志的概念在很大程度上被限制在数据库内部。使用日志作为数据订阅的机制似乎几乎是偶然出现的。但这种抽象是支持各种消息传递、数据流和实时数据处理的理想选择。</p>
+<h4 id="分布式系统中的日志"><a href="#分布式系统中的日志" class="headerlink" title="分布式系统中的日志"></a>分布式系统中的日志</h4><p>日志所解决的两个问题：<em>对变化进行排序**和分配数据</em>，在分布式数据系统中甚至更为重要。就更新的顺序达成一致（或同意不同意并应对副作用）是这些系统的核心设计问题之一。</p>
+<p>分布式系统的以日志为中心的方法源于一个简单的观察，我将其称为状态机复制原则：</p>
+<blockquote>
+<p>如果两个<strong>相同的</strong>、<strong>确定性</strong>的进程以相同的<strong>状态</strong>开始，并以相同的顺序获得相同的输入，它们将产生相同的输出并以相同的状态结束。</p>
+</blockquote>
+<p>这可能看起来有点晦涩难懂，让我们深入了解它的含义。</p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Deterministic_algorithm">确定性</a>的意思是，处理过程不依赖于时间，不会让任何其他 “带外”输入影响其结果。例如，一个程序的输出被线程的特定执行顺序影响，或者被调用gettimeofday或其他一些不可重复的东西影响，一般来说最好被视为非确定性的。</p>
+<p>进程的<strong>状态</strong>是处理结束时留在机器上的任何数据，无论是在内存中还是在磁盘上。</p>
+<p>关于以<strong>相同的</strong>顺序获得相同的输入，这一点应该有印象，这就是日志的作用。这是一个非常直观的概念：如果你给两个确定性的代码片段提供相同的输入日志，它们将产生相同的输出。</p>
+<p>对分布式计算的应用是相当明显的。你可以把将多台机器都做同样事情的问题，简化为实现一个分布式一致的日志来给这些进程提供输入的问题。这里的日志的目的是把所有的非确定性从输入流中挤出来，以确保每个处理这个输入的副本都保持同步。</p>
+<p>当你理解它时，这个原则并不复杂或深奥：它或多或少相当于说 “<u>确定性的处理</u>是确定性的”。尽管如此，我认为它是分布式系统设计中比较通用的工具之一。</p>
+<p>这种方法的一个好处是，索引日志的时间戳现在可以作为副本状态的时钟——你可以用一个数字来描述每个副本，即它处理过的最大日志条目的时间戳。这个时间戳与日志相结合，唯一地捕捉了副本的整个状态。</p>
+<p>在系统中应用这一原则的方式有很多，这取决于在日志中放入什么。例如，我们可以记录进入服务的请求，或者服务在响应请求时发生的状态变化，或者它执行的转换命令。理论上，我们甚至可以记录每个副本要执行的一系列机器指令，或者在每个副本上调用的方法名称和参数。只要两个进程以相同的方式处理这些输入，这些进程就会在各个副本中保持一致。</p>
+<p>不同群体的人似乎对日志的用途有不同的描述。数据库人员一般会区分物理日志和逻辑日志。物理日志是指记录每条被改变的行的内容。逻辑日志是指不记录改变的行，而是记录导致行改变的SQL命令（插入、更新和删除语句）。</p>
+<p>分布式系统文献通常将处理和复制的方法分为两大类。”<strong>状态机模型</strong>“通常指的是<u>主动-主动模型</u>，在这个模型中，我们保持一个传入请求的日志，每个副本处理每个请求。对其稍作修改，称为 “<strong>主-备模型</strong>“，就是选出一个副本作为领导者，让这个领导者按照请求到达的顺序处理请求，并记录下处理请求时对其状态的改变。其他副本按顺序应用领导者所做的状态变化，这样它们就会保持同步，并准备在领导者失败时接管领导者的位置。</p>
+<p><img src="/2021/11/30/the-log/2active_and_passive_arch.png" alt></p>
+<p>为了理解这两种方法之间的区别，让我们看一个玩具问题。考虑一个复制的 “算术服务”，它维护一个单一的数字作为它的状态（初始化为零），并对这个值应用加法和乘法。<u>主动-主动方法</u>可能会记录出要应用的转换，例如 “+1”、”*2”等。每个副本都会应用这些转换，因此会经历同样的一组值。<u>主动-被动</u>方法将由一个主站执行转换，并记录出结果，比如 “1”、”3”、”6”，等等。这个例子也清楚地说明了为什么排序是确保副本之间一致性的关键：<u>重新排序的加法和乘法将产生不同的结果</u>。</p>
+<p><img src="/2021/11/30/the-log/paxos_postcard3.jpeg" alt></p>
+<p>分布式日志可以被看作是模拟<u>共识问题</u>(the problem of consensus)的数据结构。毕竟，日志代表了一系列关于 “下一个 “追加值的决定。在Paxos的算法系列中，你必须眯起眼睛才能看到日志，尽管建立日志是它们最常见的实际应用。对于Paxos来说，这通常是通过一个叫做 “multi-paxos”的协议扩展来完成的，它将日志建模为一系列的共识问题，日志中的每个槽都有一个。日志在其他协议中更为突出，如<a target="_blank" rel="noopener" href="http://www.stanford.edu/class/cs347/reading/zab.pdf">ZAB</a>、<a target="_blank" rel="noopener" href="https://ramcloud.stanford.edu/wiki/download/attachments/11370504/raft.pdf">RAFT</a>和<a target="_blank" rel="noopener" href="http://pmg.csail.mit.edu/papers/vr-revisited.pdf">Viewstamped Replication</a>，它们直接对维护分布式一致的日志问题进行建模。</p>
+<p>我的怀疑是，我们对此的看法有点偏离了历史的轨迹，也许是由于几十年来，分布式计算的理论超过了它的实际应用。在现实中，共识问题有点太简单了。计算机系统很少需要决定一个单一的值，它们几乎总是处理一连串的请求。因此，一个日志，而不是一个简单的单值寄存器，是更自然的抽象。</p>
+<p>此外，对算法的关注掩盖了系统需要的底层日志抽象。我怀疑我们最终会更多地关注日志，将其作为一个商品化的构件，而不考虑其实现方式，就像我们经常谈论哈希表而不去关心我们是指线性探测的哈希表还是其他的变体。日志将成为一种商品化的接口，许多算法和实现都在竞争，以提供最好的保证和最佳性能。</p>
+<h4 id="Changelog-101-表和事件是相互的"><a href="#Changelog-101-表和事件是相互的" class="headerlink" title="Changelog 101: 表和事件是相互的"></a>Changelog 101: 表和事件是相互的</h4><p>让我们再来看看数据库。变化日志和表之间有一个令人着迷的双重性。日志类似于所有贷方、借方和银行流程的清单；表是所有当前账户余额。如果你有一个变化日志，你可以应用这些变化，以创建捕捉当前状态的表。这个表将记录每个键的最新状态（截至某个特定的日志时间）。从某种意义上说，日志是更基本的数据结构：除了创建原始表之外，你还可以对其进行转换，以创建各种衍生表。(是的，对于非关系型的人来说，表可以意味着键数据存储）。</p>
+<img src="/2021/11/30/the-log/yin-yang4.jpeg" width="30%" height="70%" alt="图片名称" align="center">
+
+<p>这个过程也是反过来的：如果你有一个表在进行更新，你可以记录这些变化，并发布一个表的状态的所有更新的 “变化日志”。这个变化日志正是你支持近乎实时的复制所需要的。所以在这个意义上，你可以把表和事件看成是双重的：表支持静止的数据，而日志捕捉变化。日志的神奇之处在于，如果它是一个完整的变化日志，它不仅持有表的最终版本的内容，而且还允许重新创建所有可能存在的其他版本。实际上，它是一种表的每一个先前状态的备份。</p>
+<p>这可能让你想起了源代码的版本控制。源代码控制和数据库之间存在着密切的关系。版本控制解决的问题与分布式数据系统要解决的问题非常相似–管理分布式、并发的状态变化。一个版本控制系统通常对补丁的顺序进行建模，这实际上是一个日志。你直接与当前代码的检查出的 “快照”进行交互，这类似于表格。你会注意到，在版本控制系统中，就像在其他分布式有状态系统中一样，复制是通过日志发生的：当你更新时，你只拉下补丁，并将它们应用于你当前的快照。</p>
+<p>有些人最近从<a target="_blank" rel="noopener" href="http://www.datomic.com/">Datomic</a>公司看到了其中的一些想法，这是一家销售以日志为中心的数据库的公司。这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cym4TZwTCNU">短片</a>很好地介绍了他们是如何在他们的系统中应用这个想法的。当然，这些想法并不是这个系统独有的，因为它们已经成为分布式系统和数据库文献的一部分，已经有十多年了。</p>
+<p>这一切可能看起来有点理论性。不要感到绝望！我们将很快进入实际操作阶段。我们很快就会讲到实用的东西了。</p>
+<p>备注：</p>
+<p>翻译自<a target="_blank" rel="noopener" href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying">The Log: What every software engineer should know about real-time data’s unifying abstraction</a>了第一部分，后来发现, 有别的译本。</p>
+<p>见：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/llguanli/p/7381765.html">学习笔记：The Log（我所读过的最好的一篇分布式技术文章） </a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%EF%BC%8C%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 设计，分布式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/16/some-dev-principle/" rel="prev" title="如何把代码写的更好">
+      <i class="fa fa-chevron-left"></i> 如何把代码写的更好
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">日志是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E6%97%A5%E5%BF%97"><span class="nav-number">1.1.</span> <span class="nav-text">数据库中的日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E6%97%A5%E5%BF%97"><span class="nav-number">1.2.</span> <span class="nav-text">分布式系统中的日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Changelog-101-%E8%A1%A8%E5%92%8C%E4%BA%8B%E4%BB%B6%E6%98%AF%E7%9B%B8%E4%BA%92%E7%9A%84"><span class="nav-number">1.3.</span> <span class="nav-text">Changelog 101: 表和事件是相互的</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Colingo</p>
+  <div class="site-description" itemprop="description">一片自己我挑战的自留地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Colingo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
