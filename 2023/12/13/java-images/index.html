@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"colinger.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并">
+  <meta name="description" content="创建java8镜像工作有时候可能需要自己创建一个镜像。过程有点小复杂，时间长容易忘记，记录一下自己创建java8与tomcat绑一起的镜像。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="聚合根的持久化">
-<meta property="og:url" content="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/index.html">
+<meta property="og:title" content="java-images">
+<meta property="og:url" content="http://colinger.github.io/2023/12/13/java-images/index.html">
 <meta property="og:site_name" content="Colingo碎碎念">
-<meta property="og:description" content="在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并">
+<meta property="og:description" content="创建java8镜像工作有时候可能需要自己创建一个镜像。过程有点小复杂，时间长容易忘记，记录一下自己创建java8与tomcat绑一起的镜像。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-06-05T03:21:39.000Z">
-<meta property="article:modified_time" content="2021-06-05T03:31:52.451Z">
+<meta property="article:published_time" content="2023-12-13T11:03:32.000Z">
+<meta property="article:modified_time" content="2023-12-13T11:06:33.219Z">
 <meta property="article:author" content="Colingo">
-<meta property="article:tag" content="DDD,聚合根,持久化">
+<meta property="article:tag" content="docker,Dockerfile">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/">
+<link rel="canonical" href="http://colinger.github.io/2023/12/13/java-images/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>聚合根的持久化 | Colingo碎碎念</title>
+  <title>java-images | Colingo碎碎念</title>
   
 
 
@@ -152,7 +152,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2021/06/05/ddd-persist-aggregate/">
+    <link itemprop="mainEntityOfPage" href="http://colinger.github.io/2023/12/13/java-images/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,7 +165,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          聚合根的持久化
+          java-images
         </h1>
 
         <div class="post-meta">
@@ -176,16 +176,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-05 11:21:39 / 修改时间：11:31:52" itemprop="dateCreated datePublished" datetime="2021-06-05T11:21:39+08:00">2021-06-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ddd/" itemprop="url" rel="index"><span itemprop="name">ddd</span></a>
-                </span>
+              <time title="创建时间：2023-12-13 19:03:32 / 修改时间：19:06:33" itemprop="dateCreated datePublished" datetime="2023-12-13T19:03:32+08:00">2023-12-13</time>
             </span>
 
           
@@ -199,8 +190,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>在DDD实践中，聚合应该作为一个完整的单元进行读取和持久化，简言之：DDD持久化时，是保存聚合根。这样做主要是为了“以确保业务的不变性或者说业务规则不变破坏”，如果聚合根只有自己一个Entity，没什么值得讨论的。但是现实中，聚合根下可能会有多个Entity。如：订单总金额应该与订单明细金额之和一致。看了一些讲解DDD的资料，要么是将聚合保存到文件里、要么是将聚合以JSON方式存储在DB里。显然并不满足大多数的需求！<br>如何优雅的实现持久化？如果我们使用JPA，Hibernate，很多事情无需我们关心，ORM已经处理好了。然而，现在Hibernate这类的ORM在国内已经没有当年那么流行了。Mybatis这类半自动的ORM怎么处理这个问题，更值得思考与讨论。</p>
+        <h2 id="创建java8镜像"><a href="#创建java8镜像" class="headerlink" title="创建java8镜像"></a>创建java8镜像</h2><p>工作有时候可能需要自己创建一个镜像。过程有点小复杂，时间长容易忘记，记录一下自己创建java8与tomcat绑一起的镜像。</p>
 <span id="more"></span>
+
+<p>1.下载java sdk</p>
+<p>​	<a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/java/jdk/8u151-b12/">JDK国内镜像</a></p>
+<p>2.下载tomcat</p>
+<p>​	<a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/apache/tomcat/tomcat-8/v8.5.95/bin/">Tomcat国内镜像</a></p>
+<p>3.编写dockerfile</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim Dockerfile</span></span><br><span class="line"></span><br><span class="line">FROM centos</span><br><span class="line">MAINTAINER c.g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会自动解压到指定目录，不需要人为去解压</span></span><br><span class="line">ADD jdk-8u151-linux-x64.tar.gz /usr/<span class="built_in">local</span>/</span><br><span class="line">ADD apache-tomcat-8.5.95.tar.gz /usr/<span class="built_in">local</span>/</span><br><span class="line"></span><br><span class="line">ENV MYPATH /usr/<span class="built_in">local</span>/</span><br><span class="line">WORKDIR <span class="variable">$MYPATH</span></span><br><span class="line">ENV JAVA_HOME <span class="variable">$MYPATH</span>/jdk1.8.0_151</span><br><span class="line">ENV CLASSPATH <span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line">ENV CATALINA_HOME <span class="variable">$MYPATH</span>/apache-tomcat-8.5.95</span><br><span class="line">ENV CATALINA_BASH <span class="variable">$MYPATH</span>/apache-tomcat-8.5.95</span><br><span class="line">ENV PATH <span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$CATALINA_HOME</span>/lib:<span class="variable">$CATALINA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+
+<p>创建镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t centos8-jdk8:tomcat8595 .  </span><br><span class="line">运行</span><br><span class="line">docker run -it 镜像id</span><br></pre></td></tr></table></figure>
+
+<p>进去查看情况，根据需要进行修改</p>
+<p>将容器另存为新的镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit `容器id` `colingo/名称:版本`</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Centos8上安装中文字符集zh-CN-UTF-8"><a href="#Centos8上安装中文字符集zh-CN-UTF-8" class="headerlink" title="Centos8上安装中文字符集zh_CN.UTF-8"></a>Centos8上安装中文字符集zh_CN.UTF-8</h2><p>先查看自符集：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locale <span class="comment">#查看环境字符集</span></span><br><span class="line">locale -a <span class="comment">#查看平台所有字符集</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$LANG</span></span><br><span class="line">en_US.UTF-8</span><br></pre></td></tr></table></figure>
+
+<p>安装中文字符集</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install glibc-common</span><br><span class="line">yum install -y langpacks-zh_CN</span><br><span class="line">vim /etc/locale.conf   <span class="comment"># 修改locale.conf文件</span></span><br><span class="line">   LANG=zh_CN.utf8</span><br><span class="line"><span class="built_in">source</span> /etc/locale.conf</span><br></pre></td></tr></table></figure>
+
+<p>如果安装出问题，可能源不对等等，需要换个源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/yum.repos.d/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="使用-阿里的yum源"><a href="#使用-阿里的yum源" class="headerlink" title="使用 阿里的yum源"></a>使用 阿里的yum源</h5><p>使用 wget 或 curl 命令 下载阿里的yum源仓库配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/CentOS-Linux-Base-ali.repo https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo</span><br><span class="line">curl -o /etc/yum.repos.d/CentOS-Linux-Base-ali.repo https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo</span><br></pre></td></tr></table></figure>
+
+<p>根据情况，使用Wget或curl</p>
+<p>安装命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@Chen yum.repos.d]<span class="comment"># yum -y install wget                                                     </span></span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -210,7 +236,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/DDD-%E8%81%9A%E5%90%88%E6%A0%B9-%E6%8C%81%E4%B9%85%E5%8C%96/" rel="tag"># DDD,聚合根,持久化</a>
+              <a href="/tags/docker-Dockerfile/" rel="tag"># docker,Dockerfile</a>
           </div>
 
         
@@ -219,13 +245,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/21/wms-inventory/" rel="prev" title="WMS库存中心">
-      <i class="fa fa-chevron-left"></i> WMS库存中心
+    <a href="/2023/12/01/spring-with-redis/" rel="prev" title="spring-with-redis">
+      <i class="fa fa-chevron-left"></i> spring-with-redis
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/06/25/cons-protocol/" rel="next" title="一致性算法">
-      一致性算法 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -284,6 +307,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAjava8%E9%95%9C%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">创建java8镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Centos8%E4%B8%8A%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6%E9%9B%86zh-CN-UTF-8"><span class="nav-number">2.</span> <span class="nav-text">Centos8上安装中文字符集zh_CN.UTF-8</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-%E9%98%BF%E9%87%8C%E7%9A%84yum%E6%BA%90"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">使用 阿里的yum源</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
